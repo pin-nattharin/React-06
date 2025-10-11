@@ -1,7 +1,17 @@
 import PropTypes from "prop-types";
 
 function Product({ item }) {
-  const productImage = require(`../../assets/${item.imageURL}`);
+  // ถ้า imageURL เป็น URL เต็ม ให้ใช้ตรงๆ, ถ้าเป็นชื่อไฟล์ให้ใช้ require
+  let productImage;
+  if (item.imageURL.startsWith("http")) {
+    productImage = item.imageURL;
+  } else {
+    try {
+      productImage = require(`../../assets/${item.imageURL}`);
+    } catch {
+      productImage = ""; // หรือ path รูป default
+    }
+  }
 
   return (
     <li className="Products">

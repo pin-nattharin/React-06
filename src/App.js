@@ -4,7 +4,7 @@ import { Routes, Route } from 'react-router-dom';
 import styled from 'styled-components';
 
 import Navbar from './features/Navbar';
-import Container from "./features/Container";
+//import Container from "./features/Container";
 
 import Home from "./features/Home";
 import AddForm from './features/Products/AddForm';
@@ -15,6 +15,7 @@ import GlobalStyle from './features/GlobalStyle';
 const AppContainer = styled.div`
   max-width: 1200px;
   margin: 24px auto;
+  padding-top: 48px;
 `;
 
 function App() {
@@ -38,8 +39,8 @@ function App() {
   return (
     <>
     <GlobalStyle />
-    <AppContainer>
     <Navbar />
+    <AppContainer>
         {/* 5. เพิ่มเงื่อนไขการแสดงผล */}
         {products.length > 0 ? (
           // 5.1 ถ้าโหลดข้อมูลเสร็จแล้ว (มี products) ให้แสดง Routes

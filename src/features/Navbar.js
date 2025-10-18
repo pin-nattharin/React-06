@@ -28,8 +28,10 @@ export default styled(Navbar)`
   border-bottom: 1px solid #dee2e6;
   box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
 
-  padding: 2rem;
+  padding: 0 2rem;
   position: fixed;
+  top: 0;
+  left: 0;
   z-index: 100;
 
   .brand {

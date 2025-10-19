@@ -1,20 +1,48 @@
-import React, { useState } from 'react';
-import { useParams } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { useParams, useNavigate } from 'react-router-dom';
+import { updateProduct, deleteProduct } from './actions';
 
 function UpdateForm() {
-  // ใช้ useParams hook เพื่อดึงค่า 'id' จาก URL path
   const { id } = useParams();
-  console.log(id); // จะแสดง id ของสินค้าใน console
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
-  // สร้าง state สำหรับเก็บข้อมูลในแต่ละ input field
+  const product = useSelector((state) =>
+    state.products.find((p) => p.id === Number(id))
+  );
+
   const [name, setName] = useState('');
   const [imageURL, setImageURL] = useState('');
   const [type, setType] = useState('');
 
+  useEffect(() => {
+    if (product) {
+      setName(product.name);
+      setType(product.type);
+      setImageURL(product.imageURL);
+    }
+  }, [product]);
+
+  const onSubmit = (event) => {
+    event.preventDefault();
+    dispatch(updateProduct({ id: product.id, name, type, imageURL }));
+    navigate('/');
+  };
+
+  const onDelete = () => {
+    dispatch(deleteProduct({ id: product.id }));
+    navigate('/');
+  };
+
+  if (!product) {
+    return <div>Product not found!</div>;
+  }
+
   return (
     <>
       <h1>Update Product</h1>
-      <form id="create-form">
+      <form id="create-form" onSubmit={onSubmit}>
         <div className="input-group">
           <label htmlFor="name">Name</label>
           <input
@@ -48,7 +76,11 @@ function UpdateForm() {
           />
         </div>
 
-        <button type="button" className="UpdateForm__delete-button">
+        <button
+          type="button"
+          className="UpdateForm__delete-button"
+          onClick={onDelete}
+        >
           Delete restaurant
         </button>
         <button type="submit">Update product</button>
